@@ -21,10 +21,16 @@ import java.util.logging.Logger;
  */
 public class LectureImage {
 
-    public static void lireImage(String nomFichierACharger) {
+    /**
+     * Function to read a file pgm.
+     * @param nomFichierACharger PGM file
+     * @return A 2D matrix representing the image(height, width)
+     */
+    public static int[][] lireImage(String nomFichierACharger){
         BufferedReader fichier;
         String delimiteurs = " ,.;";
-        String width, height;
+        int width, height;
+        int[][] image = null;
 
         try {
             fichier = new BufferedReader(new FileReader(nomFichierACharger));
@@ -33,22 +39,50 @@ public class LectureImage {
             line = fichier.readLine();
             StringTokenizer tokenizer = new StringTokenizer(line, delimiteurs);
 
-            if (tokenizer.hasMoreTokens()) {
-                width = tokenizer.nextToken();
-                if (tokenizer.hasMoreTokens()) {
-                    height = tokenizer.nextToken();
-                } else {
-                    System.err.println("Not a corrent pgm file");
+            if(tokenizer.hasMoreTokens()){
+                width = Integer.parseInt(tokenizer.nextToken());
+                if(tokenizer.hasMoreTokens()){
+                    height = Integer.parseInt(tokenizer.nextToken());
+
+                    image = new int[height][width];
+                    
+                    int nbPixelLu = 0;
+                    int nbLigneLue = 0;
+                    line = fichier.readLine();                            
+                    while(nbLigneLue != height){
+                        if(nbPixelLu == width){
+                            nbPixelLu = 0;
+                            nbLigneLue++;
+                        }
+                        tokenizer = new StringTokenizer(line, delimiteurs);
+                        
+                        while(tokenizer.hasMoreTokens()){
+                            if(nbPixelLu < width){
+                                image[nbLigneLue][nbPixelLu] = Integer.parseInt(tokenizer.nextToken());
+                                nbPixelLu++;
+                            }
+                            else{
+                                System.err.println("Not a correct pgm file : Width and file not matching");
+                            }
+                        }
+                        
+                    }
                 }
-            } else {
-                System.err.println("Not a corrent pgm file");
+                else{
+                    System.err.println("No width indicator in the pgm file");
+                }
             }
+            else{
+                System.err.println("No length indicator in the pgm file");
+            }
+            
         } catch (FileNotFoundException ex) {
             Logger.getLogger(LectureImage.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(LectureImage.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
+        return image;
     }
 
     public static void ecritureImage(int[][] matImage, String nomImage) throws IOException {
