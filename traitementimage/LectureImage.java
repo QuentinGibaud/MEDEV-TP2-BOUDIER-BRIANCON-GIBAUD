@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Quentin GIBAUD
+ * @author Quentin GIBAUD, Yann BRIANCON, Justine BOUDIER
  */
 public class LectureImage {
 
