@@ -7,7 +7,7 @@ package traitementimage;
 
 /**
  *
- * @author Quentin GIBAUD
+ * @author Quentin GIBAUD, Yann BRIANCON, Justine BOUDIER
  */
 public class TraitementImage {
 
@@ -15,7 +15,6 @@ public class TraitementImage {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
     }
     
 }
