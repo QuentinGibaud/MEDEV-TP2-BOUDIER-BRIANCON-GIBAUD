@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class LectureImage {
     
-    public static void lireImage(String nomFichierACharger){
+    public static int[][] lireImage(String nomFichierACharger){
         BufferedReader fichier;
         String delimiteurs = " ,.;";
         String width, height;
@@ -48,6 +48,58 @@ public class LectureImage {
         } catch (IOException ex) {
             Logger.getLogger(LectureImage.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+    }
+    
+    public static int maxTab(int[] tab){
+        int max = tab [0];
+        for (int i=0;i<tab.length;i++){
+            if (tab[i]>max){
+                max = tab[i];
+            } 
+        }
+        return max;
+    }
+    
+    public static void histogramme(String nomFichier){
+        int[][] matriceImage = lireImage(nomFichier);
+        int nbLigne = matriceImage.length;
+        int nbColonne = matriceImage[0].length;
+        int[] histo = new int[256];
+        for(int i=0;i<nbLigne;i++){
+            for (int j=0;j<nbColonne;j++){
+                histo[matriceImage[i][j]]++;
+            }
+        }
+        
+        int maxHisto = maxTab(histo);
+        int hauteur = maxHisto+2;
+        int largeur = 258;
+        
+        int[][] matriceHisto = new int[hauteur][largeur];
+        
+        matriceHisto[hauteur-1][0]=0;
+        matriceHisto[hauteur-1][largeur-1]=0;
+        for(int i =0;i<largeur;i++){
+            matriceHisto[0][i]=0;
+            if ((i>1) && (i<257)){
+                matriceHisto[hauteur-1][i]=i-1;
+            }
+            
+        }
+        
+        for(int j=1;j<largeur-1;j++){
+            for(int i=1;i<hauteur-1;i++){
+                if((i>0)&&(i<(maxHisto-histo[j-1]))){
+                    matriceHisto[i][j]=0;
+                }
+                else {
+                    matriceHisto[i][j]=255;
+                }
+            }
+        }
+        
+        ecritureImage(matriceHisto,"histogramme");
         
     }
     
