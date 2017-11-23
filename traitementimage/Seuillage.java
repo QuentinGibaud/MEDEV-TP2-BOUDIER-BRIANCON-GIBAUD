@@ -25,4 +25,9 @@ public class Seuillage {
         }
         LectureImage.ecritureImage(matImage, nomImage + "_seuil");
     }
+    
+    //Fonction d'agrandissement de l'image
+    public static void agrandir(String nomImage, int facteurAgrandissant){
+        int[][] matImage = LectureImage.lireImage(nomImage);
+    }
 }
